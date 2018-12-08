@@ -1,2 +1,4 @@
-# abject-room-prototype
-room with bookshelf, mattress, desk, computer, interactive (done in babylon.js)
+# wagie-wagie
+
+## Week 1
+* room with bookshelf, mattress, desk, computer, interactive (done in babylon.js)
