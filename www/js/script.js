@@ -15,8 +15,19 @@ function setup() {
 function draw() {
     noStroke()
     ellipse(mouseX, mouseY, 40, 40)
+
+    //update NPCMaker
+
+    //draw NPCs
+
+    //send server my NPCs
+
+    //draw everyone else's NPCs
 }
 
-//new user constructor, associated array of poses
+//client-side NPC constructor, associated array of poses
 //loads video
 //initializes pose (nose location)
+let NPCMaker = new function() {
+
+}
