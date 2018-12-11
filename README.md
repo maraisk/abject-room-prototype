@@ -1,7 +1,7 @@
 # wagie-wagie
 
 ## Description
-we're revealing clown world. tensorflow.js and PoseNet are used to draw NPC meme like stick figures over camera input.
+we're revealing clown world. tensorflow.js, ml5.js and PoseNet are used to draw NPC meme like stick figures over camera input.
 audio playing poem:
 wagie wagie get in cagie
 all day you sweat and ragie
@@ -27,4 +27,9 @@ neet eats tendies sauce and fries
 
 ### Week 4
 * realise that i'm in over my head on the signals processing mathematics to pull this one off in time
-* start new project with 
+* start new project more along the lines of class work
+* worked through tfjs / posenet examples directly with html canvas
+* got a non-networked version of the room working (NPC figures drawn on HTML canvas over webcam)
+* laptop died (RIP)
+* realised this would be easier if i integrated p5js, do a little digging and find that someone has made a wrapper for tfjs that works nicely here, it's ml5.js
+* start building a networked version from the ground up 
