@@ -1,12 +1,10 @@
 
-var socket
-
+let socket
 
 function setup() {
     createCanvas(640, 480)
-    //WHY DOESNT THIS WORK
-    //socket = io.connect()
-
+    background(51)
+    socket = io.connect('http://localhost:3000')
 }
 
 // function mouseDragged(){
@@ -16,7 +14,6 @@ function setup() {
 
 function draw() {
     noStroke()
-    background(51)
     ellipse(mouseX, mouseY, 40, 40)
 }
 

@@ -3,18 +3,25 @@ const express = require('express')
 const app = express()
 
 //create server that listens on port 3000
-let server = app.listen(3000)
+let server = app.listen(3000, listen)
+function listen() {
+    let host = server.address().address
+    let port = server.address().port
+    console.log('listening at http://' + host + ':' + port)
+}
 //serve the www folder!
 app.use(express.static('www'))
 
 console.log('server running')
 
 //load sockets into variable and s
-let socket = require ('socket.io')
-let io = socket(server)
+let io = require('socket.io')(server)
 
 //use function 'on' to handle new function 'newConnection'
 io.sockets.on('connection', newConnection)
 function newConnection(socket) {
-    console.log('new connection: ')
+    console.log("say hello to: " + socket.id)
+    socket.on('disconnect', function() {
+        console.log('client disconnected')
+    })
 }
