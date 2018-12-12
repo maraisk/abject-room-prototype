@@ -17,18 +17,19 @@ let newNosePositionY = 0
 let lastPD = 0
 let newPD = 0
 
-//loads images before canvas
+let canvas
+
 function preload() {
     cagieImage = loadImage('resources/cagie.png')
     warehouseImage = loadImage('resources/warehouse.jpg')
     song = loadSound('resources/thewagecage.mp3')
 }
-
 function setup() {
     //hello server!!
     socket = io.connect()
-    //todo: mobile support
-    createCanvas(640, 480)
+    canvas = createCanvas(640, 480)
+    canvas.style('z-index', '-1')
+    canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2) // center canvas
     video = createCapture(VIDEO)
     video.size(width, height)
     song.loop()
@@ -43,7 +44,6 @@ function setup() {
     // Hide the video element, and just show the canvas
     video.hide()
 }
-
 function draw() {
     //image(video, 0, 0, width, height)
     image(warehouseImage, 0, 0, width, height)
@@ -94,7 +94,9 @@ function draw() {
 
     }
 }
-
+function windowResized() {
+    canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2)
+}
 function mousePressed() {
   if (song.isPlaying()) {
     song.pause()
