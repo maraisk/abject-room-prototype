@@ -90,7 +90,7 @@ function draw() {
     // Draw cagie
     drawCagie(newNosePositionX, newNosePositionY, newPD)
     //send my cagie~
-    sendCagie(newNosePositionX, newNosePositionY, newPD)
+    //sendCagie(newNosePositionX, newNosePositionY, newPD)
 
     }
 }

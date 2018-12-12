@@ -23,7 +23,7 @@ function newConnection(socket) {
     console.log("say hello to: " + socket.id)
 
     socket.on('cagie', function(data) {
-        //console.log('received a cagie')
+        console.log(data)
         socket.broadcast.emit('cagie', data)
     })
 
