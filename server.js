@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 
 //create server that listens on port 3000
-let server = app.listen(3000, listen)
+let server = app.listen(80, listen)
 function listen() {
     let host = server.address().address
     let port = server.address().port
