@@ -1,33 +1,95 @@
-
 let socket
 
-function setup() {
-    createCanvas(640, 480)
-    background(51)
-    socket = io.connect('http://localhost:3000')
+let cagieImage
+let warehouseImage
+
+let video
+let poseNet
+let poses = []
+
+let lastNoseX = 0
+let lastNoseY = 0
+
+let newNosePositionX = 0
+let newNosePositionY = 0
+
+//loads images before canvas
+function preload() {
+    cagieImage = loadImage('resources/cagie.png')
+    warehouseImage = loadImage('resources/warehouse.jpg')
 }
 
-// function mouseDragged(){
-//     console.log(mouseX + ', '+ mouseY)
-//
-// }
+function setup() {
+    //hello server!!
+    socket = io.connect()
+    //todo: mobile support
+    createCanvas(640, 480)
+    video = createCapture(VIDEO)
+    video.size(width, height)
+
+    // Create a new poseNet method with a single detection
+    poseNet = ml5.poseNet(video)
+    // This sets up an event that fills the global variable "poses"
+    // with an array every time new poses are detected
+    poseNet.on('pose', function(results) {
+    poses = results
+    })
+    // Hide the video element, and just show the canvas
+    video.hide()
+}
 
 function draw() {
-    noStroke()
-    ellipse(mouseX, mouseY, 40, 40)
+    //image(video, 0, 0, width, height)
+    image(warehouseImage, 0, 0, width, height)
 
-    //update NPCMaker
+    // if a pose exists
+    if (poses.length > 0) {
+    // pull out the first pose
+    let pose = poses[0]
+    // pull out the pose information
+    let poseInformation = pose.pose
+    // pull out the keypoints of the pose
+    let keypoints = poseInformation.keypoints
 
-    //draw NPCs
+    //pull out keypoints
+    let noseKeypoint = keypoints[0]
+    let leftEyeKeypoint = keypoints[1]
+    let rightEyeKeypoint = keypoints[2]
 
-    //send server my NPCs
+    // get the position of that point
+    let nosePosition = noseKeypoint.position
+    let leftEyePosition = leftEyeKeypoint.position
+    let rightEyePosition = rightEyeKeypoint.position
 
-    //draw everyone else's NPCs
+    //let's calculate the scalar distance between eyes
+    let pupillaryDistance = dist(leftEyePosition.x, leftEyePosition.y, rightEyePosition.x, rightEyePosition.y)
+
+    // if it's likely to exist, interpolate for a smooth position
+    if( noseKeypoint.score > .2) {
+    newNosePositionX  = lerp(lastNoseX, nosePosition.x, .3)
+    newNosePositionY  = lerp(lastNoseY, nosePosition.y, .3)
+
+    lastNoseX = newNosePositionX
+    lastNoseY = newNosePositionY
+    }
+
+    // Draw cagie
+    push()
+    imageMode(CENTER)
+    image(cagieImage, width - newNosePositionX, newNosePositionY, 2*pupillaryDistance, 2*round(pupillaryDistance*1.276))
+    pop()
+
+    //send my cagie~
+    sendCagie(newNosePositionX, newNosePositionY, pupillaryDistance)
+
+    }
 }
-
-//client-side NPC constructor, associated array of poses
-//loads video
-//initializes pose (nose location)
-let NPCMaker = new function() {
-
+function sendCagie(xpos,ypos,w) {
+    //uncorrected x, y, pupillary distance
+    let data = {
+        x: xpos,
+        y: ypos,
+        pd: w
+    }
+    socket.emit('cagie', data)
 }

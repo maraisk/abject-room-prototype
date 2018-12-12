@@ -21,7 +21,13 @@ let io = require('socket.io')(server)
 io.sockets.on('connection', newConnection)
 function newConnection(socket) {
     console.log("say hello to: " + socket.id)
+
+    socket.on('cagie', function(data) {
+        //console.log('received a cagie')
+        socket.broadcast.emit('cagie', data)
+    })
+
     socket.on('disconnect', function() {
-        console.log('client disconnected')
+        console.log(socket.id + ' disconnected')
     })
 }
