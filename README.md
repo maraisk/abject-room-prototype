@@ -2,13 +2,13 @@
 
 ## Description
 we're revealing clown world. tensorflow.js, ml5.js and PoseNet are used to draw cagie figures over camera input.
-audio playing poem:
-wagie wagie get in cagie
-all day you sweat and ragie
-neet is comfy neet is cool
-neet is free from work and school
-wagie trapped and wagie dies
-neet eats tendies sauce and fries
+audio playing poem:\
+wagie wagie get in cagie\
+all day you sweat and ragie\
+neet is comfy neet is cool\
+neet is free from work and school\
+wagie trapped and wagie dies\
+neet eats tendies sauce and fries\
 
 ## Log
 
