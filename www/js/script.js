@@ -13,6 +13,9 @@ let lastNoseY = 0
 let newNosePositionX = 0
 let newNosePositionY = 0
 
+let lastPD = 0
+let newPD = 0
+
 //loads images before canvas
 function preload() {
     cagieImage = loadImage('resources/cagie.png')
@@ -42,6 +45,11 @@ function draw() {
     //image(video, 0, 0, width, height)
     image(warehouseImage, 0, 0, width, height)
 
+    //receive and draw cagies
+    socket.on('cagie', function(data) {
+        drawCagie(data.x, data.y, data.pd)
+    })
+
     // if a pose exists
     if (poses.length > 0) {
     // pull out the first pose
@@ -66,24 +74,30 @@ function draw() {
 
     // if it's likely to exist, interpolate for a smooth position
     if( noseKeypoint.score > .2) {
-    newNosePositionX  = lerp(lastNoseX, nosePosition.x, .3)
-    newNosePositionY  = lerp(lastNoseY, nosePosition.y, .3)
+        newNosePositionX  = lerp(lastNoseX, nosePosition.x, .3)
+        newNosePositionY  = lerp(lastNoseY, nosePosition.y, .3)
 
-    lastNoseX = newNosePositionX
-    lastNoseY = newNosePositionY
+        lastNoseX = newNosePositionX
+        lastNoseY = newNosePositionY
+
+        newPD = lerp(lastPD, pupillaryDistance, .3)
+        lastPD = newPD
     }
 
     // Draw cagie
-    push()
-    imageMode(CENTER)
-    image(cagieImage, width - newNosePositionX, newNosePositionY, 2*pupillaryDistance, 2*round(pupillaryDistance*1.276))
-    pop()
-
+    drawCagie(newNosePositionX, newNosePositionY, newPD)
     //send my cagie~
-    sendCagie(newNosePositionX, newNosePositionY, pupillaryDistance)
+    sendCagie(newNosePositionX, newNosePositionY, newPD)
 
     }
 }
+function drawCagie(x,y,w){
+    push()
+    imageMode(CENTER)
+    image(cagieImage, width - x, y, 2*w, 2*round(w*1.276))
+    pop()
+}
+
 function sendCagie(xpos,ypos,w) {
     //uncorrected x, y, pupillary distance
     let data = {
