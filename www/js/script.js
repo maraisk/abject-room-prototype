@@ -2,6 +2,7 @@ let socket
 
 let cagieImage
 let warehouseImage
+let song
 
 let video
 let poseNet
@@ -20,6 +21,7 @@ let newPD = 0
 function preload() {
     cagieImage = loadImage('resources/cagie.png')
     warehouseImage = loadImage('resources/warehouse.jpg')
+    song = loadSound('resources/thewagecage.mp3')
 }
 
 function setup() {
@@ -29,6 +31,7 @@ function setup() {
     createCanvas(640, 480)
     video = createCapture(VIDEO)
     video.size(width, height)
+    song.loop()
 
     // Create a new poseNet method with a single detection
     poseNet = ml5.poseNet(video)
@@ -91,6 +94,15 @@ function draw() {
 
     }
 }
+
+function mousePressed() {
+  if (song.isPlaying()) {
+    song.pause()
+  } else {
+    song.play()
+  }
+}
+
 function drawCagie(x,y,w){
     push()
     imageMode(CENTER)
